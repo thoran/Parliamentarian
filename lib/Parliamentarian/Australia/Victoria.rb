@@ -53,10 +53,10 @@ module Parliamentarian
       end
 
       # For consistency with Australia::Federal and vice-versa...
-      def firstname; preferredname; end
-      def first_name; preferredname; end
-      def surname; lastname; end
-      def last_name; lastname; end
+      def firstname; preferred_name; end
+      def first_name; preferred_name; end
+      def surname; last_name; end
+      def lastname; last_name; end
 
       private
 

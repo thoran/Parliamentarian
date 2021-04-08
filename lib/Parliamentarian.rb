@@ -1,8 +1,8 @@
 # Parliamentarian.rb
 # Parliamentarian
 
-# 20200828
-# 0.8.3
+# 20200831
+# 0.8.4
 
 # Changes since 0.7:
 # 0: Paramterised the location of the CSV files so that it can be a local file or the original URL by default with a view to making use of those files as fixtures for tests.
@@ -17,5 +17,7 @@
 # 7. /legislative_assemblymen/legislative_assemblymembers/, so as to be consistent with the CSV filename being downloaded.
 # 2/3
 # 8. Underscored all the dynamically created methods for each of the column names in the CSV files.
+# 3/4
+# 9. Missed some aliases when underscoring in the previous version.
 
 require_relative 'Parliamentarian/Australia'
