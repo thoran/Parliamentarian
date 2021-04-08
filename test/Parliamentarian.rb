@@ -7,4 +7,7 @@ lib_dir = File.expand_path(File.join(test_dir, '..', 'lib'))
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 
 tests = Dir[File.join(test_dir, 'Parliamentarian', '**', '*.rb')]
-tests.each{|test| require test}
+tests.each do |test|
+  require test
+  # clear memory somehow...
+end

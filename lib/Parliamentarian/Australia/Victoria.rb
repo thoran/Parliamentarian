@@ -2,7 +2,7 @@
 # Parliamentarian::Australia::Victoria
 
 require 'open-uri'
-require 'SimpleCSV.rbd/SimpleCSV'
+require 'SimpleCSV'
 
 module Parliamentarian
   module Australia
