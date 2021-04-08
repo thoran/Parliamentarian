@@ -1,9 +1,6 @@
 # Parliamentarian/Australia/Victoria.rb
 # Parliamentarian::Australia::Victoria
 
-# 20190602
-# 0.3.1
-
 require 'open-uri'
 require 'SimpleCSV.rbd/SimpleCSV'
 
@@ -45,9 +42,9 @@ module Parliamentarian
 
       def attr_name(header)
         if header =~ / /
-          header.split.collect{|word| word.capitalize}.join('')
+          header.split.collect{|word| word.downcase}.join('_')
         else
-          header
+          header.downcase
         end
       end
 
@@ -56,11 +53,5 @@ module Parliamentarian
 end
 
 if __FILE__ == $0
-  require 'fileutils'
-  FileUtils.touch('legislative_council.csv')
-  csv_file = SimpleCSV.new('legislative_council.csv', mode: 'r+', headers: true)
-  parsed_csv = Parliamentarian::Australia::Victoria.fetch(Parliamentarian::Australia::Victoria::LEGISLATIVE_COUNCIL_URL)
-  csv_file.columns = parsed_csv.first.keys
-  csv_file.rows = parsed_csv
-  csv_file.write
+  p Parliamentarian::Australia::Victoria.legislative_council.first
 end
