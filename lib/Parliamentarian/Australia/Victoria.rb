@@ -13,21 +13,31 @@ module Parliamentarian
 
       class << self
 
-        def fetch(url)
-          raw_csv = URI.open(url)
+        def fetch(csv_file_location)
+          raw_csv = if ['http', 'https'].include?(URI.parse(csv_file_location).scheme)
+            URI.open(csv_file_location)
+          else
+            File.read(csv_file_location)
+          end
           SimpleCSV.read(raw_csv, headers: true)
         end
 
-        def all
-          @all ||= legislative_councillors + legislative_assemblymen
+        def all(legislative_councillors_csv_file_location = nil, legislative_assemblymen_csv_file_location = nil)
+          @all ||= (legislative_councillors(legislative_councillors_csv_file_location) + legislative_assemblymen(legislative_assemblymen_csv_file_location)).flatten
         end
 
-        def legislative_councillors
-          @legislative_council ||= fetch(LEGISLATIVE_COUNCIL_URL).collect{|row| self.new(row)}
+        def legislative_councillors(csv_file_location = nil)
+          @legislative_council ||= (
+            csv_file_location = csv_file_location || LEGISLATIVE_COUNCIL_URL
+            fetch(csv_file_location).collect{|row| self.new(row)}
+          )
         end
 
-        def legislative_assemblymen
-          @legislative_assembly ||= fetch(LEGISLATIVE_ASSEMBLY_URL).collect{|row| self.new(row)}
+        def legislative_assemblymen(csv_file_location = nil)
+          @legislative_assembly ||= (
+            csv_file_location = csv_file_location || LEGISLATIVE_ASSEMBLY_URL
+            fetch(csv_file_location).collect{|row| self.new(row)}
+          )
         end
 
       end # class << self
@@ -41,7 +51,7 @@ module Parliamentarian
         extract_postcode_from_electorate_office_address
       end
 
-      # For consistency with Australia::Australia and vice-versa...
+      # For consistency with Australia::Federal and vice-versa...
       def firstname; preferredname; end
       def first_name; preferredname; end
       def surname; lastname; end
@@ -63,20 +73,5 @@ module Parliamentarian
       end
 
     end
-  end
-end
-
-if __FILE__ == $0
-  p Parliamentarian::Australia::Victoria.legislative_councillors.first
-  p Parliamentarian::Australia::Victoria.legislative_assemblymen.first
-  p Parliamentarian::Australia::Victoria.legislative_councillors.count
-  p Parliamentarian::Australia::Victoria.legislative_assemblymen.count
-
-  Parliamentarian::Australia::Victoria.legislative_councillors.each do |legislative_councillor|
-    puts "Legislative Councillor #{legislative_councillor.first_name} #{legislative_councillor.surname} #{legislative_councillor.email}"
-  end
-
-  Parliamentarian::Australia::Victoria.legislative_assemblymen.each do |legislative_assemblyman|
-    puts "Legislative Assemblyman #{legislative_assemblyman.first_name} #{legislative_assemblyman.surname} #{legislative_assemblyman.email}"
   end
 end

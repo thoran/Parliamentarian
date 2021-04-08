@@ -1,3 +1,4 @@
 source 'http://rubygems.org'
 
-gem 'roo-xls'
+gem 'minitest'
+gem 'minitest-spec-context'

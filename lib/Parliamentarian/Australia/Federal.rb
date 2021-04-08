@@ -13,22 +13,32 @@ module Parliamentarian
 
       class << self
 
-        def fetch(url)
-          raw_csv = URI.open(url)
+        def fetch(csv_file_location)
+          raw_csv = if ['http', 'https'].include?(URI.parse(csv_file_location).scheme)
+            URI.open(csv_file_location)
+          else
+            File.read(csv_file_location)
+          end
           SimpleCSV.read(raw_csv, headers: true)
         end
 
-        def all
-          @all ||= senators + members
+        def all(senators_csv_file_location = nil, members_csv_file_location = nil)
+          @all ||= (senators(senators_csv_file_location) + house_of_representatives(members_csv_file_location)).flatten
         end
 
-        def senators
-          @senators ||= fetch(SENATE_URL).collect{|row| self.new(row)}
+        def senators(csv_file_location = nil)
+          @senators ||= (
+            csv_file_location = csv_file_location || SENATE_URL
+            fetch(csv_file_location).collect{|row| self.new(row)}
+          )
         end
         alias_method :senate, :senators
 
-        def members
-          @members ||= fetch(HOUSE_OF_REPRESENTATIVES_URL).collect{|row| self.new(row)}
+        def members(csv_file_location = nil)
+          @members ||= (
+            csv_file_location = csv_file_location || HOUSE_OF_REPRESENTATIVES_URL
+            fetch(csv_file_location).collect{|row| self.new(row)}
+          )
         end
         alias_method :house_of_representatives, :members
 
@@ -84,24 +94,5 @@ module Parliamentarian
       end
 
     end
-  end
-end
-
-if __FILE__ == $0
-  p Parliamentarian::Australia::Federal.senators.first
-  p Parliamentarian::Australia::Federal.members.first
-  p Parliamentarian::Australia::Federal.senators.count
-  p Parliamentarian::Australia::Federal.members.count
-
-  Parliamentarian::Australia::Federal.senators.select do |senator|
-    senator.electorate_state =~ /VIC/i
-  end.each do |senator|
-    puts "Senator #{senator.first_name} #{senator.surname} #{senator.email}"
-  end
-
-  Parliamentarian::Australia::Federal.members.select do |member|
-    member.electorate_state =~ /VIC/i
-  end.each do |member|
-    puts "Member #{member.first_name} #{member.surname} #{member.email}"
   end
 end
