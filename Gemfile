@@ -1,4 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'minitest'
-gem 'minitest-spec-context'
+group :test do
+  gem 'minitest'
+  gem 'minitest-spec-context'
+  gem 'webmock'
+end
