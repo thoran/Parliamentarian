@@ -3,6 +3,7 @@
 
 require 'open-uri'
 require 'SimpleCSV'
+require 'String/underscore'
 
 module Parliamentarian
   module Australia
@@ -60,16 +61,12 @@ module Parliamentarian
       private
 
       def attr_name(header)
-        if header =~ / /
-          header.split.collect{|word| word.downcase}.join('_')
-        else
-          header.downcase
-        end
+        header.underscore
       end
 
       def extract_postcode_from_electorate_office_address
         self.class.send(:attr_accessor, 'postcode')
-        self.postcode = eoaddress.split.last
+        self.postcode = eo_address.split.last
       end
 
     end

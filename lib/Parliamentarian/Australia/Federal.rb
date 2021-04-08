@@ -3,6 +3,7 @@
 
 require 'open-uri'
 require 'SimpleCSV'
+require 'String/underscore'
 
 module Parliamentarian
   module Australia
@@ -75,11 +76,7 @@ module Parliamentarian
       private
 
       def attr_name(header)
-        if header =~ / /
-          header.split.collect{|word| word.downcase}.join('_')
-        else
-          header.downcase
-        end
+        header.underscore
       end
 
       def synthesize_email_address
