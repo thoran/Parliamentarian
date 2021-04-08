@@ -14,12 +14,12 @@ module Parliamentarian
       class << self
 
         def fetch(url)
-          raw_csv = open(url)
+          raw_csv = URI.open(url)
           SimpleCSV.read(raw_csv, headers: true)
         end
 
         def all
-          @all ||= legislative_council + legislative_assembly
+          @all ||= legislative_councillors + legislative_assemblymen
         end
 
         def legislative_councillors
@@ -34,20 +34,18 @@ module Parliamentarian
 
       def initialize(row)
         row.keys.each do |header|
-          attr_name = attr_name(header)
+          attr_name = self.attr_name(header)
           self.class.send(:attr_accessor, attr_name)
           self.send("#{attr_name}=", row[header])
         end
         extract_postcode_from_electorate_office_address
       end
 
-      def surname
-        @lastname
-      end
-
-      def first_name
-        @firstname
-      end
+      # For consistency with Australia::Australia and vice-versa...
+      def firstname; preferredname; end
+      def first_name; preferredname; end
+      def surname; lastname; end
+      def last_name; lastname; end
 
       private
 
@@ -73,4 +71,12 @@ if __FILE__ == $0
   p Parliamentarian::Australia::Victoria.legislative_assemblymen.first
   p Parliamentarian::Australia::Victoria.legislative_councillors.count
   p Parliamentarian::Australia::Victoria.legislative_assemblymen.count
+
+  Parliamentarian::Australia::Victoria.legislative_councillors.each do |legislative_councillor|
+    puts "Legislative Councillor #{legislative_councillor.first_name} #{legislative_councillor.surname} #{legislative_councillor.email}"
+  end
+
+  Parliamentarian::Australia::Victoria.legislative_assemblymen.each do |legislative_assemblyman|
+    puts "Legislative Assemblyman #{legislative_assemblyman.first_name} #{legislative_assemblyman.surname} #{legislative_assemblyman.email}"
+  end
 end
