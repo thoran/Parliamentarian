@@ -1,8 +1,8 @@
 # VictorianMembersofParliament.rb
 # VictorianMembersofParliament
 
-# 20171115
-# 0.0.0
+# 20171119
+# 0.0.1
 
 require 'open-uri'
 require 'SimpleCSV.rbd/SimpleCSV'
@@ -19,13 +19,17 @@ class VictorianMembersofParliament
     end
 
     def all
-      @all ||= fetch.each{|row| self.new(row)}
+      @all ||= fetch.collect{|row| self.new(row)}
     end
 
   end # class << self
 
   def initialize(row)
-    # dynamic attr setting necessary
+    row.keys.each do |header|
+      attr_name = header.capitalize.tr(' ', '')
+      self.class.send(:attr_accessor, attr_name)
+      self.send("#{attr_name}=", row[header])
+    end
   end
 
 end
