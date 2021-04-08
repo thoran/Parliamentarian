@@ -22,11 +22,11 @@ module Parliamentarian
           @all ||= legislative_council + legislative_assembly
         end
 
-        def legislative_council
+        def legislative_councillors
           @legislative_council ||= fetch(LEGISLATIVE_COUNCIL_URL).collect{|row| self.new(row)}
         end
 
-        def legislative_assembly
+        def legislative_assemblymen
           @legislative_assembly ||= fetch(LEGISLATIVE_ASSEMBLY_URL).collect{|row| self.new(row)}
         end
 
@@ -34,11 +34,22 @@ module Parliamentarian
 
       def initialize(row)
         row.keys.each do |header|
-          attr_name = self.attr_name(header)
+          attr_name = attr_name(header)
           self.class.send(:attr_accessor, attr_name)
           self.send("#{attr_name}=", row[header])
         end
+        extract_postcode_from_electorate_office_address
       end
+
+      def surname
+        @lastname
+      end
+
+      def first_name
+        @firstname
+      end
+
+      private
 
       def attr_name(header)
         if header =~ / /
@@ -48,13 +59,18 @@ module Parliamentarian
         end
       end
 
+      def extract_postcode_from_electorate_office_address
+        self.class.send(:attr_accessor, 'postcode')
+        self.postcode = eoaddress.split.last
+      end
+
     end
   end
 end
 
 if __FILE__ == $0
-  p Parliamentarian::Australia::Victoria.legislative_council.first
-  p Parliamentarian::Australia::Victoria.legislative_assembly.first
-  p Parliamentarian::Australia::Victoria.legislative_council.count
-  p Parliamentarian::Australia::Victoria.legislative_assembly.count
+  p Parliamentarian::Australia::Victoria.legislative_councillors.first
+  p Parliamentarian::Australia::Victoria.legislative_assemblymen.first
+  p Parliamentarian::Australia::Victoria.legislative_councillors.count
+  p Parliamentarian::Australia::Victoria.legislative_assemblymen.count
 end

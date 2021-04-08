@@ -43,12 +43,36 @@ module Parliamentarian
 
       def initialize(row)
         row.keys.each do |header|
-          attr_name = self.attr_name(header)
+          attr_name = attr_name(header)
           self.class.send(:attr_accessor, attr_name)
           self.send("#{attr_name}=", row[header])
         end
         synthesize_email_address
       end
+
+      def firstname
+        @first_name
+      end
+
+      def lastname
+        @surname
+      end
+
+      def postcode
+        @electoratepostcode
+      end
+
+      # predicate methods
+
+      def senator?
+        salutation == 'Senator'
+      end
+
+      def member?
+        !senator?
+      end
+
+      private
 
       def attr_name(header)
         if header =~ / /
@@ -62,19 +86,11 @@ module Parliamentarian
         self.class.send(:attr_accessor, 'email')
         self.email = (
           if senator?
-            "senator.#{surname}@aph.gov.au"
+            "senator.#{surname.downcase}@aph.gov.au"
           else
             "#{first_name}.#{surname}.MP@aph.gov.au"
           end
         )
-      end
-
-      def senator?
-        salutation == 'Senator'
-      end
-
-      def member?
-        !senator?
       end
 
     end
