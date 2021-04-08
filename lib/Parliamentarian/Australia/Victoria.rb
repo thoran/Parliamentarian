@@ -54,4 +54,7 @@ end
 
 if __FILE__ == $0
   p Parliamentarian::Australia::Victoria.legislative_council.first
+  p Parliamentarian::Australia::Victoria.legislative_assembly.first
+  p Parliamentarian::Australia::Victoria.legislative_council.count
+  p Parliamentarian::Australia::Victoria.legislative_assembly.count
 end
