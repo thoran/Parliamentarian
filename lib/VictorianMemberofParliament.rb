@@ -2,7 +2,7 @@
 # VictorianMemberofParliament
 
 # 20171119
-# 0.1.2
+# 0.2.0
 
 require 'open-uri'
 require 'SimpleCSV.rbd/SimpleCSV'
@@ -40,4 +40,12 @@ class VictorianMemberofParliament
     end
   end
 
+end
+
+if __FILE__ == $0
+  require 'fileutils'
+  FileUtils.touch('victorian_members_of_parliament.csv')
+  csv_file = SimpleCSV.new('victorian_members_of_parliament.csv', mode: 'r+', headers: true)
+  csv_file.rows = VictorianMemberofParliament.fetch
+  csv_file.write
 end
