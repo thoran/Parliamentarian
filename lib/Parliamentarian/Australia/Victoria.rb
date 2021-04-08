@@ -8,8 +8,8 @@ module Parliamentarian
   module Australia
     class Victoria
 
-      LEGISLATIVE_COUNCIL_URL = 'https://www.parliament.vic.gov.au/images/members/assemblymembers.csv'
-      LEGISLATIVE_ASSEMBLY_URL = 'https://www.parliament.vic.gov.au/images/members/councilmembers.csv'
+      LEGISLATIVE_COUNCIL_URL = 'https://www.parliament.vic.gov.au/images/members/councilmembers.csv'
+      LEGISLATIVE_ASSEMBLY_URL = 'https://www.parliament.vic.gov.au/images/members/assemblymembers.csv'
 
       class << self
 
@@ -22,8 +22,8 @@ module Parliamentarian
           SimpleCSV.read(raw_csv, headers: true)
         end
 
-        def all(legislative_councillors_csv_file_location = nil, legislative_assemblymen_csv_file_location = nil)
-          @all ||= (legislative_councillors(legislative_councillors_csv_file_location) + legislative_assemblymen(legislative_assemblymen_csv_file_location)).flatten
+        def all(legislative_councillors_csv_file_location = nil, legislative_assemblymembers_csv_file_location = nil)
+          @all ||= (legislative_councillors(legislative_councillors_csv_file_location) + legislative_assemblymembers(legislative_assemblymembers_csv_file_location)).flatten
         end
 
         def legislative_councillors(csv_file_location = nil)
@@ -33,7 +33,7 @@ module Parliamentarian
           )
         end
 
-        def legislative_assemblymen(csv_file_location = nil)
+        def legislative_assemblymembers(csv_file_location = nil)
           @legislative_assembly ||= (
             csv_file_location = csv_file_location || LEGISLATIVE_ASSEMBLY_URL
             fetch(csv_file_location).collect{|row| self.new(row)}
