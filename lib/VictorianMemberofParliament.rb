@@ -2,7 +2,7 @@
 # VictorianMemberofParliament
 
 # 20171119
-# 0.1.1
+# 0.1.2
 
 require 'open-uri'
 require 'SimpleCSV.rbd/SimpleCSV'
@@ -34,7 +34,7 @@ class VictorianMemberofParliament
 
   def attr_name(header)
     if header =~ / /
-      header.capitalize.tr(' ', '')
+      header.split.collect{|word| word.capitalize}.join('')
     else
       header
     end
