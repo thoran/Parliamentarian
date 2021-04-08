@@ -2,7 +2,7 @@
 # VictorianMemberofParliament
 
 # 20171119
-# 0.1.0
+# 0.1.1
 
 require 'open-uri'
 require 'SimpleCSV.rbd/SimpleCSV'
@@ -26,9 +26,17 @@ class VictorianMemberofParliament
 
   def initialize(row)
     row.keys.each do |header|
-      attr_name = header.capitalize.tr(' ', '') if header =~ / /
+      attr_name = self.attr_name(header)
       self.class.send(:attr_accessor, attr_name)
       self.send("#{attr_name}=", row[header])
+    end
+  end
+
+  def attr_name(header)
+    if header =~ / /
+      header.capitalize.tr(' ', '')
+    else
+      header
     end
   end
 
