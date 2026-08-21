@@ -12,9 +12,15 @@ Gem::Specification.new do |spec|
   spec.author = 'thoran'
   spec.email = 'code@thoran.com'
   spec.homepage = 'http://github.com/thoran/Parliamentarian'
-  spec.license = 'Ruby'
+  spec.license = 'MIT'
 
-  spec.files = Dir['lib/**/*.rb']
+  spec.files = [
+    Dir['lib/**/*.rb'],
+    Dir['test/**/*.rb'],
+    'Gemfile',
+    'LICENSE',
+    'parliamentarian.gemspec',
+  ].flatten
   spec.required_ruby_version = '>= 2.5'
 
   spec.add_development_dependency('minitest')
