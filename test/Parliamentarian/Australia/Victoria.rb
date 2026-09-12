@@ -32,7 +32,7 @@ describe Parliamentarian::Australia::Victoria do
           to_return(status: 200, body: legislative_assemblymembers_csv_file, headers: {})
       stub_request(:get, "https://www.parliament.vic.gov.au/images/members/councilmembers.csv").
         with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-          to_return(status: 200, body: legislative_assemblymembers_csv_file, headers: {})
+          to_return(status: 200, body: legislative_councillors_csv_file, headers: {})
     end
 
     describe ".all" do
