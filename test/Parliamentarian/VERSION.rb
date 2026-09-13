@@ -6,7 +6,7 @@ require 'minitest-spec-context'
 lib_dir = File.expand_path(File.join('..', '..', '..', 'lib'), __FILE__)
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 
-require 'Parliamentarian'
+require 'parliamentarian'
 
 describe Parliamentarian do
   describe "VERSION" do

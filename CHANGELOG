@@ -2,6 +2,15 @@
 
 ## 20260913
 
+0.10.0: /Parliamentarian/parliamentarian/
+
+1. lib/Parliamentarian.rb --> lib/parliamentarian.rb. The gem is parliamentarian, so `require 'parliamentarian'` looks for lib/parliamentarian.rb; the published 0.8.5 gem holds lib/Parliamentarian.rb and nothing else of that name, so the require has been failing on any filesystem which distinguishes the two. Here it has always resolved, this one not distinguishing them.
+2. test: 3 files read `require 'Parliamentarian'`, which the rename would have broken for the same reason. Now `require 'parliamentarian'`.
+3. A minor rather than a patch: the rename does not only make `require 'parliamentarian'` work, it stops `require 'Parliamentarian'` working, which is the spelling that resolves today on a filesystem which distinguishes them.
+4. ~ parliamentarian.gemspec: spec.homepage, and ~ README.md: the fork URL, the repository being renamed to match.
+5. The namespace directory lib/Parliamentarian/ keeps its capital, naming the module rather than the gem, as does test/Parliamentarian.rb, which is the runner.
+6. ~ Parliamentarian::VERSION: /0.9.1/0.10.0/
+
 0.9.1: - the blank line inside each class and module, and above each closing end.
 
 1. lib: - 10 blank lines, across Australia/Federal.rb, Australia/Victoria.rb and VERSION.rb, each immediately inside a class or module line or above a closing end.

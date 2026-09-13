@@ -9,7 +9,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 lib_dir = File.expand_path(File.join('..', '..', '..', '..', 'lib'), __FILE__)
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 
-require 'Parliamentarian'
+require 'parliamentarian'
 
 describe Parliamentarian::Australia::Victoria do
   let(:legislative_councillors_csv_filename) do
