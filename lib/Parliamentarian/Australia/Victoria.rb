@@ -21,22 +21,26 @@ module Parliamentarian
           SimpleCSV.read(raw_csv, headers: true)
         end
 
+        # Not memoised itself: both halves are, so this is their sum, and a memo
+        # here would hold a pairing of two locations for every pairing asked for.
         def all(legislative_councillors_csv_file_location = nil, legislative_assemblymembers_csv_file_location = nil)
-          @all ||= (legislative_councillors(legislative_councillors_csv_file_location) + legislative_assemblymembers(legislative_assemblymembers_csv_file_location)).flatten
+          legislative_councillors(legislative_councillors_csv_file_location) +
+            legislative_assemblymembers(legislative_assemblymembers_csv_file_location)
         end
 
+        # Keyed upon the location, that being what the answer depends upon.  Keyed
+        # upon nothing, a second call naming a different file returned the first
+        # file's members, the argument being read only upon a miss.
         def legislative_councillors(csv_file_location = nil)
-          @legislative_council ||= (
-            csv_file_location = csv_file_location || LEGISLATIVE_COUNCIL_URL
-            fetch(csv_file_location).collect{|row| self.new(row)}
-          )
+          csv_file_location ||= LEGISLATIVE_COUNCIL_URL
+          @legislative_council ||= {}
+          @legislative_council[csv_file_location] ||= fetch(csv_file_location).collect{|row| self.new(row)}
         end
 
         def legislative_assemblymembers(csv_file_location = nil)
-          @legislative_assembly ||= (
-            csv_file_location = csv_file_location || LEGISLATIVE_ASSEMBLY_URL
-            fetch(csv_file_location).collect{|row| self.new(row)}
-          )
+          csv_file_location ||= LEGISLATIVE_ASSEMBLY_URL
+          @legislative_assembly ||= {}
+          @legislative_assembly[csv_file_location] ||= fetch(csv_file_location).collect{|row| self.new(row)}
         end
       end # class << self
 

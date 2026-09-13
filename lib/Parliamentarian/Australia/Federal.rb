@@ -21,23 +21,26 @@ module Parliamentarian
           SimpleCSV.read(raw_csv, headers: true)
         end
 
+        # Not memoised itself: both halves are, so this is their sum, and a memo
+        # here would hold a pairing of two locations for every pairing asked for.
         def all(senators_csv_file_location = nil, members_csv_file_location = nil)
-          @all ||= (senators(senators_csv_file_location) + house_of_representatives(members_csv_file_location)).flatten
+          senators(senators_csv_file_location) + house_of_representatives(members_csv_file_location)
         end
 
+        # Keyed upon the location, that being what the answer depends upon.  Keyed
+        # upon nothing, a second call naming a different file returned the first
+        # file's members, the argument being read only upon a miss.
         def senators(csv_file_location = nil)
-          @senators ||= (
-            csv_file_location = csv_file_location || SENATE_URL
-            fetch(csv_file_location).collect{|row| self.new(row)}
-          )
+          csv_file_location ||= SENATE_URL
+          @senators ||= {}
+          @senators[csv_file_location] ||= fetch(csv_file_location).collect{|row| self.new(row)}
         end
         alias_method :senate, :senators
 
         def members(csv_file_location = nil)
-          @members ||= (
-            csv_file_location = csv_file_location || HOUSE_OF_REPRESENTATIVES_URL
-            fetch(csv_file_location).collect{|row| self.new(row)}
-          )
+          csv_file_location ||= HOUSE_OF_REPRESENTATIVES_URL
+          @members ||= {}
+          @members[csv_file_location] ||= fetch(csv_file_location).collect{|row| self.new(row)}
         end
         alias_method :house_of_representatives, :members
       end # class << self

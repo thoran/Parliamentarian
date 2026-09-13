@@ -2,6 +2,15 @@
 
 ## 20260913
 
+0.11.0: ~ the memos: keyed upon the location, having been keyed upon nothing.
+
+1. ~ Australia/Federal.rb and Australia/Victoria.rb: senators, members, legislative_councillors and legislative_assemblymembers each held their result in a class instance variable keyed upon nothing, while taking a location as an argument. A second call naming a different file returned the first file's members, the argument being read only upon a miss. Each is now a hash keyed upon the location.
+2. That is what made 0.8.8's stub fault spread. The HTTP examples filled @legislative_council with the assembly's 88 rows, and the local file examples then handed over a correct path and were given those 88 back, so two wrong stubs produced four failures across two contexts.
+3. ~ Australia/Federal.rb and Australia/Victoria.rb: all() is no longer memoised and no longer flattens. Both halves are memoised, so it is their sum; @all held a pairing of two locations for every pairing asked for, and two arrays concatenated need no flattening.
+4. A minor rather than a patch: a caller naming two different files now receives two different answers where it received one.
+5. Not addressed: the memo is process-lifetime and unbounded, so a long running process serves the same parliament indefinitely. Keying it makes it correct rather than fresh.
+6. ~ Parliamentarian::VERSION: /0.10.0/0.11.0/
+
 0.10.0: /Parliamentarian/parliamentarian/
 
 1. lib/Parliamentarian.rb --> lib/parliamentarian.rb. The gem is parliamentarian, so `require 'parliamentarian'` looks for lib/parliamentarian.rb; the published 0.8.5 gem holds lib/Parliamentarian.rb and nothing else of that name, so the require has been failing on any filesystem which distinguishes the two. Here it has always resolved, this one not distinguishing them.
