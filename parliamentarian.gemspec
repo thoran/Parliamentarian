@@ -14,11 +14,14 @@ Gem::Specification.new do |spec|
   spec.license = 'MIT'
 
   spec.files = [
+    'parliamentarian.gemspec',
     Dir['lib/**/*.rb'],
     Dir['test/**/*.rb'],
+    'CHANGELOG',
     'Gemfile',
     'LICENSE',
-    'parliamentarian.gemspec',
+    'README.md',
+    'Rakefile',
   ].flatten
   spec.required_ruby_version = '>= 2.5'
 

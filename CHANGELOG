@@ -1,0 +1,38 @@
+# CHANGELOG
+
+## 20260913
+
+0.9.0: + README.md, CHANGELOG, Rakefile.
+
+1. + README.md: what the library does, the two parliaments it covers, the method per chamber, and that a row's attributes are the CSV's own headings underscored. 31 of the 32 gems here carry one and this was the exception.
+2. + CHANGELOG: this file. The commit subjects name a version from 0.8.6 back; before that the history is the import of 20210408 and says nothing about releases.
+3. + Rakefile: a rake/testtask naming test/Parliamentarian/**/*.rb. The tests carry no _test suffix, so the usual glob finds nothing, and they are named directly rather than through test/Parliamentarian.rb: that runner shares its name with the library, so requiring it under rake's loader makes `require 'Parliamentarian'` from within a test resolve back to the runner which is still loading, and the constant is never defined.
+4. ~ parliamentarian.gemspec: + 'CHANGELOG', 'README.md' and 'Rakefile' to spec.files, without which the three sit in the repository and the gem does not carry them; and the list reordered, the gemspec first and then the globs and the rest alphabetically, which is how the estate writes it.
+5. ~ Parliamentarian::VERSION: /0.8.8/0.9.0/
+
+0.8.8: ~ test/Parliamentarian/Australia/Victoria.rb: the council stub returned the assembly's rows.
+
+
+## 20260911
+
+0.8.7: ~ lib/Parliamentarian.rb: + require of Parliamentarian/VERSION; ~ VERSION.rb: /class/module/, the library declaring a module; + test/Parliamentarian/VERSION.rb
+
+
+## 20260822
+
+0.8.6: + LICENSE, and the gemspec: /Ruby/MIT/, - spec.date.
+
+1. ~ parliamentarian.gemspec: /Ruby/MIT/, it having named a licence the repository never carried; - spec.date, which rubygems sets from the build.
+2. + .gitignore, for .DS_Store and *.gem, and - lib/.DS_Store and the four under test/. Both 20210409, the day after 0.8.5, and recorded here as the first versioned commit after them.
+3. ~ Parliamentarian::VERSION: /0.8.5/0.8.6/
+
+
+## 20210408
+
+0.8.5: + VERSION, the gemspec, and the required lib files; ~ Gemfile: + webmock.
+
+1. + VERSION file.
+2. + parliamentarian.gemspec.
+3. ~ Gemfile to include webmock.
+4. + required lib files, to be broken out later.
+5. Taken from lib/parliamentarian.rb's in-source change log, items 10 to 13 under its 4/5 marker.
