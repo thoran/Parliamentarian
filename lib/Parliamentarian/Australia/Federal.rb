@@ -8,12 +8,10 @@ require 'String/underscore'
 module Parliamentarian
   module Australia
     class Federal
-
       SENATE_URL = 'https://www.aph.gov.au/~/media/03%20Senators%20and%20Members/Address%20Labels%20and%20CSV%20files/Senators/allsenel.csv?la=en'
       HOUSE_OF_REPRESENTATIVES_URL = 'https://www.aph.gov.au/~/media/03%20Senators%20and%20Members/Address%20Labels%20and%20CSV%20files/SurnameRepsCSV.csv?la=en'
 
       class << self
-
         def fetch(csv_file_location)
           raw_csv = if ['http', 'https'].include?(URI.parse(csv_file_location).scheme)
             URI.open(csv_file_location)
@@ -42,7 +40,6 @@ module Parliamentarian
           )
         end
         alias_method :house_of_representatives, :members
-
       end # class << self
 
       def initialize(row)
@@ -89,7 +86,6 @@ module Parliamentarian
           end
         )
       end
-
     end
   end
 end

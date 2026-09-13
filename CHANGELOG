@@ -2,6 +2,11 @@
 
 ## 20260913
 
+0.9.1: - the blank line inside each class and module, and above each closing end.
+
+1. lib: - 10 blank lines, across Australia/Federal.rb, Australia/Victoria.rb and VERSION.rb, each immediately inside a class or module line or above a closing end.
+2. ~ Parliamentarian::VERSION: /0.9.0/0.9.1/
+
 0.9.0: + README.md, CHANGELOG, Rakefile.
 
 1. + README.md: what the library does, the two parliaments it covers, the method per chamber, and that a row's attributes are the CSV's own headings underscored. 31 of the 32 gems here carry one and this was the exception.

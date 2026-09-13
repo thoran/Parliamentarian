@@ -8,12 +8,10 @@ require 'String/underscore'
 module Parliamentarian
   module Australia
     class Victoria
-
       LEGISLATIVE_COUNCIL_URL = 'https://www.parliament.vic.gov.au/images/members/councilmembers.csv'
       LEGISLATIVE_ASSEMBLY_URL = 'https://www.parliament.vic.gov.au/images/members/assemblymembers.csv'
 
       class << self
-
         def fetch(csv_file_location)
           raw_csv = if ['http', 'https'].include?(URI.parse(csv_file_location).scheme)
             URI.open(csv_file_location)
@@ -40,7 +38,6 @@ module Parliamentarian
             fetch(csv_file_location).collect{|row| self.new(row)}
           )
         end
-
       end # class << self
 
       def initialize(row)
@@ -68,7 +65,6 @@ module Parliamentarian
         self.class.send(:attr_accessor, 'postcode')
         self.postcode = eo_address.split.last
       end
-
     end
   end
 end
