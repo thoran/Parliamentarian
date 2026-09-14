@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 20260914
+
+0.11.1: ~ parliamentarian.gemspec: Tidy.
+
+1. + the header comment, and + Gem::Specification#development_dependencies=, as eventful has it.
+2. the three add_development_dependency calls --> development_dependencies = %w{}.
+3. ~ spec.required_ruby_version, moved above spec.files; + spec.require_paths, which was already the default.
+4. ~ Parliamentarian::VERSION: /0.11.0/0.11.1/
+
+
 ## 20260913
 
 0.11.0: ~ the memos: keyed upon the location, having been keyed upon nothing.
